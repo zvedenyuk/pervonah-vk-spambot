@@ -26,4 +26,4 @@ for($i=0;$i<60;$i++){
 	usleep(1000000); // Wait for 1 second
 }
 ```
-Change the delay and the number of repeats to your preferences. Feel free to execute your file with cron.
+Change the delay and the number of repeats to your preferences. Feel free to run your file by cron.
