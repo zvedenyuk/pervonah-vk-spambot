@@ -1,5 +1,5 @@
 # Pervonah VK spambot
-A spambot for vk.com that publishes your image in first comments to every new post of a specified group or public page.
+A spambot for vk.com that publishes your image in a first comment to every new post of a specified group or public page.
 
 ## Before you start
 You need to create an app at VK's developer section. Open file `getstarted.php` in your browser to get the instructions. Also, if you want to bypass captcha you will need an Antigate API key.
