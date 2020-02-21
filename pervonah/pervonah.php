@@ -12,7 +12,7 @@ function callMethod($method, $parameters){
 	global $vkAccessToken,$vkAccessSecret;
 	if (!$vkAccessToken) return false;
 	if (is_array($parameters)) $parameters = http_build_query($parameters);
-	$queryString = "/method/$method?$parameters&access_token={$vkAccessToken}";
+	$queryString = "/method/$method?$parameters&v=5.103&access_token={$vkAccessToken}";
 	$querySig = md5($queryString . $vkAccessSecret);
 	return json_decode(file_get_contents(
 		"http://api.vk.com{$queryString}&sig=$querySig"
@@ -38,11 +38,11 @@ function pervonah($groupId,$photo){
 	
 	// Cycle through 20 group posts. If you've changed the 'count' parameter change the number here as well.
 	for($i=1;$i<=20;$i++){
-		if($answer->response[$i]->id > $n){
+		if($answer->response->items[$i]->id > $n){
 			// Publish a comment
 			$result = callMethod('wall.addComment', array(
 				'owner_id' => -1 * $groupId,
-				'post_id' => $answer->response[$i]->id,
+				'post_id' => $answer->response->items[$i]->id,
 				'from_group' => $fromGroup ? 1 : 0,
 				'text' => "",
 				'reply_to_comment' => "",
@@ -54,7 +54,7 @@ function pervonah($groupId,$photo){
 			if($result->error->captcha_img!=""){
 				$resultC = callMethod('wall.addComment', array(
 					'owner_id' => -1 * $groupId,
-					'post_id' => $answer->response[$i]->id,
+					'post_id' => $answer->response->items[$i]->id,
 					'from_group' => $fromGroup ? 1 : 0,
 					'text' => "",
 					'reply_to_comment' => "",
@@ -69,6 +69,6 @@ function pervonah($groupId,$photo){
 	}
 	
 	// Write the ID of the last post you've commented on to file
-	if($answer->response[1]->id!="") fiw("post-ids/".$groupId.".txt",$answer->response[1]->id);
+	if($answer->response->items[1]->id!="") fiw("post-ids/".$groupId.".txt",$answer->response->items[1]->id);
 }
 ?>
